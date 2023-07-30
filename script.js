@@ -9,7 +9,7 @@ const ball = {
   x: 250,
   y: 50,
   helding: false,
-  gravidade: 0.1
+  gravidade: 1
 }
 
 let { raio, vetorX, vetorY, x, y, helding, gravidade } = ball
@@ -64,7 +64,7 @@ function move() {
   if (y > cnvs.height - raio) {
     y = cnvs.height - raio
     vetorY *= -1
-    vetorY += 0.8
+    vetorY += y / 300
   }
   if (x > cnvs.width - raio || x < 0 + raio) {
     if (x > cnvs.width - raio) vetorX *= -1, x = cnvs.width - raio, vetorX += 0.5
@@ -79,6 +79,8 @@ function loopB() {
   // console.log(x)
   move()
 }
+
+console.log(window.innerHeight)
 
 window.onload = () => {
   loopB()
