@@ -1,8 +1,6 @@
 
 const cnvs = document.querySelector('#bolita')
 const ctx = cnvs.getContext('2d')
-const cnvsS = document.querySelector('#snake')
-const ctxS = cnvsS.getContext('2d')
 
 const ball = {
   raio: 50,
@@ -14,18 +12,10 @@ const ball = {
   gravidade: 0.1
 }
 
-const bodySnake = [
-  {
-    x: 0,
-    y: 0,
-    vtX: 0,
-    vtY: 0
-  }
-]
 let { raio, vetorX, vetorY, x, y, helding, gravidade } = ball
 
-let inicialX
-let finalx
+let inicialX;
+let finalx;
 
 cnvs.addEventListener('mousedown', (e) => {
   cnvs.style.cssText += 'cursor: grabbing'
@@ -35,20 +25,20 @@ cnvs.addEventListener('mousedown', (e) => {
   if (hyp < raio) helding = true
   inicialX = e.offsetX
 })
-cnvs.addEventListener('mouseup', (e) => {
-  cnvs.style.cssText += 'cursor: grab'
-  helding = false
-  finalx = e.offsetX
-  const direcao = Math.sign(finalx - inicialX)
-  if (direcao === 1) vetorX = 100
-  if (direcao === -1) vetorX = -100
-  if (direcao === 0) vetorX = 0
-})
 cnvs.addEventListener('mousemove', (e) => {
   if (helding === true) {
     x = e.offsetX
     y = e.offsetY
   }
+})
+cnvs.addEventListener('mouseup', (e) => {
+  cnvs.style.cssText += 'cursor: grab'
+  finalx = e.offsetX
+  const direcao = Math.sign(finalx - inicialX)
+  if (direcao === 1 && helding) vetorX = 4, vetorY = 1
+  if (direcao === -1 && helding) vetorX = -4, vetorY = 1
+  if (direcao === 0 && helding) vetorX = 0
+  helding = false
 })
 
 function bola() {
@@ -90,25 +80,6 @@ function loopB() {
   move()
 }
 
-function snake() {
-  ctxS.beginPath()
-  ctxS.fillStyle = 'black'
-  ctxS.fillRect(bodySnake[0].x, bodySnake[0].y, 50, 50)
-  ctxS.closePath()
-}
-
-function snakeMove() {
-  bodySnake[0].x += bodySnake[0].vtX
-  console.log(e)
-}
-
-function loopS() {
-  window.requestAnimationFrame(loopS)
-  snake()
-  snakeMove()
-}
-
 window.onload = () => {
   loopB()
-  loopS()
 }
